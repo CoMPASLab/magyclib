@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "magyclib"
+version = "0.0.1a0"
+description = "CoMPAS Lab Magnetometer and Gyroscope Calibration (MAGYC)"
+authors = ["srodriguez_mbari <srodriguez@mbari.org>"]
+readme = "README.md"
+license = "MIT"
+packages = [{ include = "magyc" }]
+
+[tool.poetry.dependencies]
+python = "^3.9,<3.12"
+numpy = "1.26.4"
+scipy = "1.13.1"
+navlib = "^0.1.5"
+gtsam = {version = "^4.2", allow-prereleases = true}
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.1"
+black = "^24.8.0"
+sympy = "^1.13.2"
+ipykernel = "^6.29.5"
+
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.6.1"
+mkdocstrings-python = "^1.11.1"
+mkdocs-material = "^9.5.34"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.3"
+
+[tool.black]
+line-length = 120
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
