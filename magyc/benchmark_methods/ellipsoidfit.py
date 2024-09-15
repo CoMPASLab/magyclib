@@ -10,12 +10,6 @@ Functions:
 Authors: Sebastián Rodríguez-Martínez
 Contact: srodriguez@mbari.org
 """
-
-__all__ = [
-    "ellipsoid_fit",
-    "ellipsoid_fit_fang",
-]
-
 import warnings
 from typing import Tuple, Union
 

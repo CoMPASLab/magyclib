@@ -12,14 +12,6 @@ Functions:
 Authors: Sebastián Rodríguez-Martínez and Giancarlo Troni
 Contact: srodriguez@mbari.org
 """
-
-__all__ = [
-    'magyc_ls',
-    'magyc_nls',
-    'magyc_bfg',
-    'magyc_ifg',
-]
-
 from functools import partial
 from typing import Dict, List, Optional, Tuple, Union
 

@@ -10,12 +10,6 @@ Functions:
 Authors: Sebastián Rodríguez-Martínez
 Contact: srodriguez@mbari.org
 """
-
-__all__ = [
-    'twostep_hi',
-    'twostep_hsi',
-]
-
 import warnings
 from typing import Tuple, Union
 

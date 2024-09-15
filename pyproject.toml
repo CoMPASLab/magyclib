@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "magyclib"
-version = "0.0.1a1"
+version = "0.0.1a2"
 description = "CoMPAS Lab Magnetometer and Gyroscope Calibration (MAGYC)"
 authors = ["srodriguez_mbari <srodriguez@mbari.org>"]
 readme = "README.md"

@@ -9,9 +9,6 @@ Functions:
 Authors: Sebastián Rodríguez-Martínez
 Contact: srodriguez@mbari.org
 """
-
-__all__ = ['sphere_fit']
-
 import numpy as np
 from typing import Union, Tuple
 

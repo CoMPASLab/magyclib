@@ -1,13 +1,13 @@
-from . import ellipsoidfit, magfactor, spherefit, twostep, sar
+# import methods from the corresponding modules
+from .ellipsoidfit import ellipsoid_fit, ellipsoid_fit_fang
+from .spherefit import sphere_fit
+from .twostep import twostep_hi, twostep_hsi
+from .sar import sar_aid, sar_kf, sar_ls
+from .magfactor import magfactor3
 
-from .ellipsoidfit import *
-from .spherefit import *
-from .twostep import *
-from .sar import *
-from .magfactor import *
-
-__all__ = ellipsoidfit.__all__.copy()
-__all__ += spherefit.__all__.copy()
-__all__ += twostep.__all__.copy()
-__all__ += sar.__all__.copy()
-__all__ += magfactor.__all__.copy()
+# define __all__ for the module
+__all__ = ['ellipsoid_fit', 'ellipsoid_fit_fang']
+__all__ += ['sphere_fit']
+__all__ += ['twostep_hi', 'twostep_hsi']
+__all__ += ['sar_aid', 'sar_kf', 'sar_ls']
+__all__ += ['magfactor3']

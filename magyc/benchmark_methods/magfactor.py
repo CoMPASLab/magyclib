@@ -10,9 +10,6 @@ Functions:
 Authors: Sebastián Rodríguez-Martínez
 Contact: srodriguez@mbari.org
 """
-
-__all__ = ['magfactor3']
-
 from functools import partial
 from typing import List, Tuple, Union, Optional
 
