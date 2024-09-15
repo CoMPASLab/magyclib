@@ -1,0 +1,1 @@
+::: magyc.benchmark_methods.spherefit
