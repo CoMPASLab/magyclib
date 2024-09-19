@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "magyclib"
+name = "magyc"
 version = "0.1.0"
 description = "CoMPAS Lab Magnetometer and Gyroscope Calibration (MAGYC)"
 authors = ["srodriguez_mbari <srodriguez@mbari.org>"]
@@ -8,15 +8,15 @@ license = "MIT"
 packages = [{ include = "magyc" }]
 
 [tool.poetry.dependencies]
-python = "^3.9,<3.12"
-numpy = "1.26.4"
-scipy = "1.13.1"
+python = ">=3.8,<3.12"
+numpy = "<2.0.0"
 navlib = "^0.1.5"
 gtsam = {version = "^4.2", allow-prereleases = true}
+scipy = "1.10.1"
 
 
 [tool.poetry.group.dev.dependencies]
-flake8 = "^7.1.1"
+flake8 = "5.0.4"
 black = "^24.8.0"
 sympy = "^1.13.2"
 ipykernel = "^6.29.5"
