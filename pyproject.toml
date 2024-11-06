@@ -8,28 +8,50 @@ license = "MIT"
 packages = [{ include = "magyc" }]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.12"
-numpy = "<2.0.0"
+python = "^3.8"
+numpy = [
+    {version = ">=1.22,<1.25", python = ">=3.8,<3.9"},
+    {version = "^1.25", python = ">=3.9"},
+]
 navlib = "^0.1.5"
-gtsam = {version = "^4.2", allow-prereleases = true}
-scipy = "1.10.1"
-
+gtsam = "^4.2"
+scipy = [
+    {version = "1.10.*", python = ">=3.8,<3.9"},
+    {version = ">=1.11,<1.14", python = ">=3.9,<3.10"},
+    {version = "^1.14", python = ">=3.10"},
+]
+matplotlib = [
+    {version = ">=3.6.0,<3.8.0", python = ">=3.8,<3.9"},
+    {version = "^3.8.0", python = ">=3.9"},
+]
+jax = [
+    {version = ">=0.4.1,<0.4.14", python = ">=3.8,<3.9"},
+    {version = ">=0.4.14,<0.4.31", python = ">=3.9,<3.10"},
+    {version = "^0.4.31", python = ">=3.10"},
+]
+jaxlib = [
+    {version = ">=0.4.1,<0.4.14", python = ">=3.8,<3.9"},
+    {version = ">=0.4.14,<0.4.31", python = ">=3.9,<3.10"},
+    {version = "^0.4.31", python = ">=3.10"},
+]
 
 [tool.poetry.group.dev.dependencies]
-flake8 = "5.0.4"
-black = "^24.8.0"
-sympy = "^1.13.2"
-ipykernel = "^6.29.5"
+flake8 = [
+    {version = "<6.0.0", python = ">=3.8,<3.9"},
+    {version = "^6", python = ">=3.9"},
+]
+black = "^23.7.0"
+sympy = "^1.11"
+ipykernel = "^6.17"
 
 
 [tool.poetry.group.docs.dependencies]
-mkdocs = "^1.6.1"
-mkdocstrings-python = "^1.11.1"
-mkdocs-material = "^9.5.34"
-
+mkdocs = "^1.6"
+mkdocstrings-python = "^1.2"
+mkdocs-material = "^9.3"
 
 [tool.poetry.group.test.dependencies]
-pytest = "^8.3.3"
+pytest = "^8"
 
 [tool.black]
 line-length = 120
