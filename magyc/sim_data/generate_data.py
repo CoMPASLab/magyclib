@@ -72,17 +72,14 @@ def create_synthetic_dataset(folder_path: Path, niter: int = 100, nsamples: int 
         SI = np.array([[1.10, 0.10, 0.04],
                        [0.10, 0.88, 0.02],
                        [0.04, 0.02, 1.22]])
-        SI *= 1.8
         # G
         HI = np.array([[0.020],
                        [0.120],
                        [0.090]])
-        HI *= 1.8
         # rad/s
         WB = np.array([[0.004],
                        [-0.005],
                        [0.002]])
-        WB *= 1.8
 
     # Check if folder is a directory
     if not isdir(folder_path):
