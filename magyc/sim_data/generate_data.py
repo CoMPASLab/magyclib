@@ -39,7 +39,8 @@ import numpy as np
 
 # TODO: Add test for create_synthetic_dataset
 def create_synthetic_dataset(folder_path: Path, niter: int = 100, nsamples: int = 10000, frequency: float = 25.0,
-                             mag_noise_G: float = 0.01, gyro_noise_rad_s: float = 0.005, random: bool = False) -> None:
+                             mag_noise_G: float = 0.01, gyro_noise_rad_s: float = 0.005, random: bool = False,
+                             scale_factor: float = 1.0) -> None:
     """
     Creates a synthetic dataset using a constant magnetic vector that is
     randomly rotated in three different degrees of motion: low, mid, and high.
@@ -66,20 +67,25 @@ def create_synthetic_dataset(folder_path: Path, niter: int = 100, nsamples: int 
         random (bool): If True, the soft iron, hard iron, and gyroscope biases
             are randomly generated. If False, the soft iron, hard iron, and
             gyroscope biases are fixed, by default False.
+        scale_factor (float): Scale factor for the SI, HI, and WB matrices, by
+            default 1.0
     """
     if not random:
         # Adimensional and positive definite symmetric (PDS) matrix
         SI = np.array([[1.10, 0.10, 0.04],
                        [0.10, 0.88, 0.02],
                        [0.04, 0.02, 1.22]])
+        SI = scale_factor * SI
         # G
         HI = np.array([[0.020],
                        [0.120],
                        [0.090]])
+        HI = scale_factor * HI
         # rad/s
         WB = np.array([[0.004],
                        [-0.005],
                        [0.002]])
+        WB = scale_factor * WB
 
     # Check if folder is a directory
     if not isdir(folder_path):
