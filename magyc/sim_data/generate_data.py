@@ -37,6 +37,7 @@ import navlib.math as nm
 import numpy as np
 
 
+# TODO: Add test for create_synthetic_dataset
 def create_synthetic_dataset(folder_path: Path, niter: int = 100, nsamples: int = 10000, frequency: float = 25.0,
                              mag_noise_G: float = 0.01, gyro_noise_rad_s: float = 0.005, random: bool = False) -> None:
     """
@@ -71,14 +72,17 @@ def create_synthetic_dataset(folder_path: Path, niter: int = 100, nsamples: int 
         SI = np.array([[1.10, 0.10, 0.04],
                        [0.10, 0.88, 0.02],
                        [0.04, 0.02, 1.22]])
+        SI *= 1.8
         # G
         HI = np.array([[0.020],
                        [0.120],
                        [0.090]])
+        HI *= 1.8
         # rad/s
         WB = np.array([[0.004],
                        [-0.005],
                        [0.002]])
+        WB *= 1.8
 
     # Check if folder is a directory
     if not isdir(folder_path):
@@ -207,11 +211,11 @@ class _SyntheticData():
         is mid motion, the third is low motion and the last is tiny motion.
         Each nested list has the RPH amplitude as [A_roll, A_pitch, A_heading].
         """
-        high_motion = np.deg2rad([180, 180, 180]).tolist()
-        mid_motion = np.deg2rad([5, 45, 180]).tolist()
-        low_motion = np.deg2rad([5, 15, 90]).tolist()
-        tiny_motion = np.deg2rad([5, 5, 45]).tolist()
-        cross_motion = np.deg2rad([45, 45, 180]).tolist()
+        high_motion = np.deg2rad([5, 45, 360]).tolist()
+        mid_motion = np.deg2rad([5, 5, 360]).tolist()
+        low_motion = np.deg2rad([5, 45, 90]).tolist()
+        tiny_motion = np.deg2rad([5, 5, 90]).tolist()
+        cross_motion = np.deg2rad([5, 80, 180]).tolist()
         return [high_motion, mid_motion, low_motion, tiny_motion, cross_motion]
 
     @property
@@ -346,31 +350,41 @@ class _SyntheticData():
             # Create data dictionary
             data = dict(self.initial_dict)
 
-            # Initial Conditions
-            t = np.linspace(0, self.simulation_length, self.nsamples)
+            # Set kinematic conditions based on the following. The angular rates
+            # of an ROV are defined based on the following ranges:
+            # Heading rate: 0.2 to 0.4 rad/s
+            # Pitch rate: 0.1 to 0.3 rad/s
+            # Roll rate: 0.05 to 0.08 rad/s
+            # If for an axis i we model the movement as:
+            # r_i = A_i * sin((w_i/A_i) * t + phi_i), where A_i is the amplitude,
+            # w_i is the angular rate, and phi_i is the phase shift, then the
+            # angular rate is modelled as its derivative:
+            # w_i = w_i * cos((w_i/A_i) * t + phi_i)
+
+            # Amplitude ranges
             r_A, p_A, h_A = self.motion_limits[motion_level]
+            # horizontal shift
+            r_phi = np.random.uniform(-np.pi, np.pi, (self.niter,))
+            p_phi = np.random.uniform(-np.pi, np.pi, (self.niter,))
+            h_phi = np.random.uniform(-np.pi, np.pi, (self.niter,))
+            # Angular rate
+            r_w = np.random.uniform(0.05, 0.08, (self.niter,))
+            p_w = np.random.uniform(0.1, 0.3, (self.niter,))
+            h_w = np.random.uniform(0.2, 0.4, (self.niter,))
+            # time
+            t = np.linspace(0, self.simulation_length, self.nsamples)
+
+            # Start simulations loop
             for simulation in range(self.niter):
                 if simulation % 10 == 0:
                     header = f"Motion Level: {self.motion_levels[motion_level]}"
                     print(f"{header} | Simulation {simulation} our of {self.niter}.")
 
-                # Roll
-                r_init = np.random.uniform(-1, 1, (1,)) * r_A
-                r_f = np.random.uniform(0.005, 0.01)
-                r = np.vstack(r_A * np.sin(2 * np.pi * r_f * t + r_init))
-
-                # Pitch
-                p_init = np.random.uniform(-1, 1, (1,)) * p_A
-                p_f = np.random.uniform(0.005, 0.008)
-                p = np.vstack(p_A * np.sin(2 * np.pi * p_f * t + p_init))
-
-                # Heading
-                h_init = np.random.uniform(-1, 1, (1,)) * h_A
-                h_f = np.random.uniform(0.004, 0.008)
-                h = np.vstack(h_A * np.sin(2 * np.pi * h_f * t + h_init))
-
-                # RPH
-                rph = np.concatenate([r, p, h], axis=1)
+                # Roll, pitch and heading
+                r = r_A * np.sin((r_w[simulation] / r_A) * t + r_phi[simulation])
+                p = p_A * np.sin((p_w[simulation] / p_A) * t + p_phi[simulation])
+                h = h_A * np.sin((h_w[simulation] / h_A) * t + h_phi[simulation])
+                rph = np.array([r, p, h]).T
 
                 # Rotation Matrices
                 rot_mat = np.apply_along_axis(nm.rph2rot, 1, rph)
@@ -379,12 +393,12 @@ class _SyntheticData():
                 # Magnetic field
                 m = (rot_mat_t @ self.magnetic_vector).squeeze()
 
-                # Gyroscope
+                # compute angular rates in the sensor frame
                 rot_ij = (rot_mat_t[:-1, :, :] @ rot_mat[1:, :, :]).reshape(-1, 9)
                 skew_w = np.apply_along_axis(lambda x: nm.matrix_log3(x.reshape(3, 3)), 1, rot_ij).reshape(-1, 9)
                 w_prime = np.apply_along_axis(lambda x: nm.so3_to_vec(x.reshape(3, 3)).reshape(3, 1), 1, skew_w)
                 w = ((1 / np.diff(t)).reshape(-1, 1, 1) * w_prime).reshape(-1, 3)
-                w = np.concatenate([w[[0], :], w], axis=0)
+                w = np.concatenate([np.atleast_2d(w[0]), w], axis=0)
 
                 # Measurements Noise
                 mNoise = np.random.randn(self.nsamples, 3) * self.mag_noise
