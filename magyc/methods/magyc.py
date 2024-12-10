@@ -31,7 +31,7 @@ from numpy import exp as exp
 def magyc_ls(magnetic_field: Union[np.ndarray, list], angular_rate: Union[np.ndarray, list],
              time: Union[np.ndarray, list]) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
-    MAGYC-LS: Proposed method for the full calibration of a three-axis magnetometer
+    Proposed method for the full calibration of a three-axis magnetometer
     using magnetic field and angular rate measurements. This particular approach
     is based on a least squares optimization and poses the probems as a linear
     least squares optimization problem.
@@ -138,7 +138,7 @@ def magyc_ls(magnetic_field: Union[np.ndarray, list], angular_rate: Union[np.nda
 def magyc_nls(magnetic_field: Union[np.ndarray, list], angular_rate: Union[np.ndarray, list],
               time: Union[np.ndarray, list]) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
-    MAGYC-NLS: Proposed method for the full calibration of a three-axis magnetometer
+    Proposed method for the full calibration of a three-axis magnetometer
     and a three-axis gyroscope using magnetic field and angular rate measurements.
     This particular approach is based on a least squares optimization and poses
     the probems as a non-linear least squares optimization problem.
@@ -251,7 +251,7 @@ def magyc_bfg(magnetic_field: Union[np.ndarray, list], angular_rate: Union[np.nd
               max_iter: int = 1000) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray,
                                              Dict[str, Union[List[float], int]]]:
     """
-    MAGYC-BFG: Proposed method for the full calibration of a three-axis magnetometer
+    Proposed method for the full calibration of a three-axis magnetometer
     using magnetic field and angular rate measurements. This particular approach
     is based on a factor graph processing all the data in a batch manner.
 
@@ -842,7 +842,7 @@ def magyc_ifg(
         measurements_window: int = 25
         ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, Dict[str, np.ndarray]]:
     """
-    MAGYC-IFG: Proposed method for the full calibration of a three-axis magnetometer
+    Proposed method for the full calibration of a three-axis magnetometer
     using magnetic field and angular rate measurements. This particular approach
     is based on a factor graph processing all the data in an incremental manner.
 
