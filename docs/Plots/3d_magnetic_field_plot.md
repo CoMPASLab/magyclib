@@ -1,1 +1,0 @@
-::: magyc.plots.magfield_data_plot

@@ -1,1 +1,0 @@
-::: magyc.utils.pds_geodesic_distance
