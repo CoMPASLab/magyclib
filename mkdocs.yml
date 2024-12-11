@@ -16,6 +16,13 @@ nav:
     - "Magnetometer Calibration Gyro Aided": "Benchmark Methods/magcalgyro.md"
     - "Sphere Fit": "Benchmark Methods/spherefit.md"
     - "TWOSTEP": "Benchmark Methods/twostep.md"
+  - "Synthetic Data":
+    - "Synthetic Data Generation": "Synthetic Data/synthetic_data_generation.md"
+  - "Plots":
+    - "3D Magnetic Field Plot": "Plots/3d_magnetic_field_plot.md"
+  - "Utilities":
+    - "HSI Calibration Validation": "Utilities/hsi_calibration_validation.md"
+    - "PDS Geodesic Distance": "Utilities/pds_geodesic_distance.md"
 
 markdown_extensions:
   - meta

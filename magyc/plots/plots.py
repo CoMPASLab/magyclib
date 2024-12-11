@@ -484,7 +484,6 @@ def magfield_data_plot(soft_iron: np.ndarray, hard_iron: np.ndarray, magnetic_fi
         magnetic_field (np.ndarray): Magnetic field in G as a (n, 3) numpy array.
         local_magnetic_field (np.ndarray): Local magnetic field in G as a (3, ) numpy array.
         save (str): Directory to save the plots as a string.
-        angle (float): View's angle as a float.
     """
     # Sphere radius
     r = np.linalg.norm(local_magnetic_field)

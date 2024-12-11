@@ -25,6 +25,25 @@ def hsi_calibration_validation(soft_iron: np.ndarray, hard_iron: np.ndarray) -> 
     parametrization of an ellipsoid in the real numbers domain and if meet
     the positive definite condition for the soft-iron.
 
+    Conditions:
+        - cond1: The rank of matrix S should be 3.
+        - cond2: The rank of matrix E should be 4.
+        - cond3: The determinant of matrix E should be less than 0.
+        - cond4: All eigenvalues of matrix S should be positive.
+        - cond5: All eigenvalues of the soft-iron matrix should be positive.
+
+    Explanation:
+        - S: A matrix derived from the inverse of the soft-iron matrix. It is
+             used to check the positive definite condition.
+        - P: A matrix derived from the hard-iron matrix and the inverse of the
+             soft-iron matrix. It represents the linear part of the ellipsoid
+             equation.
+        - d: A scalar value derived from the hard-iron matrix and the inverse of
+             the soft-iron matrix. It represents the constant part of the ellipsoid
+             equation.
+        - E: A block matrix constructed from S, P, and d. It represents the full
+             ellipsoid equation in matrix form.
+
     Args:
         soft_iron (np.ndarray): Soft-iron matrix as a (3, 3) numpy array.
         hard_iron (np.ndarray): Hard-iron matrix as a (3, 1) numpy array.
@@ -65,8 +84,8 @@ def pds_geodesic_distance(pds_0: np.ndarray, pds_1: np.ndarray) -> float:
     https://doi.org/10.1515/9781400827787
 
     Args:
-        psd_0 (np.ndarray): Positive definite symmetric matrix.
-        psd_1 (np.ndarray): Positive definite symmetric matrix.
+        pds_0 (np.ndarray): Positive definite symmetric matrix.
+        pds_1 (np.ndarray): Positive definite symmetric matrix.
 
     Returns:
         Distance between the two matrices.

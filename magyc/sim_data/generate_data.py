@@ -37,7 +37,6 @@ import navlib.math as nm
 import numpy as np
 
 
-# TODO: Add test for create_synthetic_dataset
 def create_synthetic_dataset(folder_path: Path, niter: int = 100, nsamples: int = 10000, frequency: float = 25.0,
                              mag_noise_G: float = 0.01, gyro_noise_rad_s: float = 0.005, random: bool = False,
                              scale_factor: float = 1.0) -> None:
@@ -56,6 +55,17 @@ def create_synthetic_dataset(folder_path: Path, niter: int = 100, nsamples: int 
 
     For each level of movement the data is provided as a multi-dimensional array,
     where the shape is: (simulation, samples, 3).
+
+    If not random, the soft iron, hard iron, and gyroscope biases are fixed as
+    follows:
+
+    \\[ SI = \\begin{bmatrix} 1.10 & 0.10 & 0.04 \\\\
+                              0.10 & 0.88 & 0.02 \\\\
+                              0.04 & 0.02 & 1.22 \\end{bmatrix} \\]
+
+    \\[ HI = \\begin{bmatrix} 0.020 & 0.120 & 0.090 \\end{bmatrix}^T \\]
+
+    \\[ WB = \\begin{bmatrix} 0.004 & -0.005 & 0.002 \\end{bmatrix}^T \\]
 
     Args:
         folder_path (Path): Folder to save the data as a pickle (.pkl) file.
