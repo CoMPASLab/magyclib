@@ -1,35 +1,42 @@
 site_name: "MAGYC: Magnetometer and Gyroscope Calibration"
-repo_url: https://github.com/srodriguez-mbari/magyclib
 site_description: A novel method for the full three-axis magnetometer and three-axis Gyroscope bias estimation using angular rate measurements.
 site_author: Sebastián Rodríguez - CoMPAS Lab - Monterey Bay Aquarium Research Institute.
 
 nav:
-  - "Introduction": "index.md"
-  - "Proposed Methods":
-    - "MAGYC-LS": "Proposed Methods/magyc_ls.md"
-    - "MAGYC-NLS": "Proposed Methods/magyc_nls.md"
-    - "MAGYC-BFG": "Proposed Methods/magyc_bfg.md"
-    - "MAGYC-IFG": "Proposed Methods/magyc_ifg.md"
-  - "Benchmark Methods":
-    - "Ellipsoid Fit": "Benchmark Methods/ellipsoidfit.md"
-    - "GTSAM magFactor3": "Benchmark Methods/magfactor3.md"
-    - "Magnetometer Calibration Gyro Aided": "Benchmark Methods/magcalgyro.md"
-    - "Sphere Fit": "Benchmark Methods/spherefit.md"
-    - "TWOSTEP": "Benchmark Methods/twostep.md"
-  - "Synthetic Data":
-    - "Synthetic Data Generation": "Synthetic Data/synthetic_data_generation.md"
-  - "Plots":
-    - "3D Magnetic Field Plot": "Plots/3d_magnetic_field_plot.md"
-  - "Utilities":
-    - "HSI Calibration Validation": "Utilities/hsi_calibration_validation.md"
-    - "PDS Geodesic Distance": "Utilities/pds_geodesic_distance.md"
+  - "MAGYC": "index.md"
+  - "Python Library":
+    - "Introduction": "introduction.md"
+    - "Proposed Methods":
+      - "MAGYC-LS": "Proposed Methods/magyc_ls.md"
+      - "MAGYC-NLS": "Proposed Methods/magyc_nls.md"
+      - "MAGYC-BFG": "Proposed Methods/magyc_bfg.md"
+      - "MAGYC-IFG": "Proposed Methods/magyc_ifg.md"
+    - "Benchmark Methods":
+      - "Ellipsoid Fit": "Benchmark Methods/ellipsoidfit.md"
+      - "GTSAM magFactor3": "Benchmark Methods/magfactor3.md"
+      - "Magnetometer Calibration Gyro Aided": "Benchmark Methods/magcalgyro.md"
+      - "Sphere Fit": "Benchmark Methods/spherefit.md"
+      - "TWOSTEP": "Benchmark Methods/twostep.md"
+    - "Synthetic Data":
+      - "Synthetic Data Generation": "Synthetic Data/synthetic_data_generation.md"
+    - "Plots":
+      - "3D Magnetic Field Plot": "Plots/3d_magnetic_field_plot.md"
+    - "Utilities":
+      - "HSI Calibration Validation": "Utilities/hsi_calibration_validation.md"
+      - "PDS Geodesic Distance": "Utilities/pds_geodesic_distance.md"
+    - "License": "License/license.md"
+  - "Simulated Data": "simulated_data.md"
+  - "Example": "example.md"
 
 markdown_extensions:
   - meta
   - admonition
   - pymdownx.details
   - pymdownx.superfences
-  - pymdownx.emoji
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
   - pymdownx.arithmatex:
       generic: true
 
@@ -67,6 +74,8 @@ theme:
       toggle:
         icon: material/weather-night
         name: Dark mode
+  logo: logo/compas_logo.png
+  favicon: logo/compas_favicon.png
 
 watch:
   - magyc/
