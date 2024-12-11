@@ -414,6 +414,132 @@ def joe_pos_error(error_norm_xy, time, save=""):
     plt.close()
 
 
+def ellipsoid_plot(
+    hard_iron: np.ndarray,
+    radii: np.ndarray,
+    soft_iron: np.ndarray,
+    ax: plt.Axes,
+    plot_axes: Optional[bool] = False,
+    cage_color: Optional[str] = "b",
+    cage_alpha: Optional[float] = 0.2,
+) -> None:
+    """
+    Plots an ellipsoid represented as a cage structure.
+
+    Args:
+        center (np.ndarray): Ellipsoid's center as a numpy array of 3 coordinates.
+        radii (np.ndarray): Ellipsoid's principal axes as a numpy array of 3 coordinates.
+        rotation (np.ndarray): Ellipsoid's rotation matrix as a (3, 3) numpy array.
+        ax (matplotlib.pyplot.Axes): Axes to plot ellipsoid.
+        plot_axes (bool, optional): Whether to plot the coordinate frame of the ellipsoid. Defaults to False.
+        cage_color (str, optional): Cage color. Defaults to "b".
+        cage_alpha (float, optional): Cage transparency. Defaults to 0.2.
+    """
+    u = np.linspace(0.0, 2.0 * np.pi, 100)
+    v = np.linspace(0.0, np.pi, 100)
+
+    # cartesian coordinates that correspond to the spherical angles:
+    x = radii[0] * np.outer(np.cos(u), np.sin(v))
+    y = radii[1] * np.outer(np.sin(u), np.sin(v))
+    z = radii[2] * np.outer(np.ones_like(u), np.cos(v))
+
+    # Stack the coordinates for rotation and translation
+    xyz = np.stack((x, y, z), axis=-1)
+    xyz = xyz.reshape(-1, 3).T
+
+    # Rotate and translate the coordinates
+    xyz = (soft_iron @ xyz).T + hard_iron
+
+    # Reshape back to the original shape
+    x, y, z = xyz[:, 0].reshape(100, 100), xyz[:, 1].reshape(100, 100), xyz[:, 2].reshape(100, 100)
+
+    if plot_axes:
+        # Scale the coordinate frame
+        axes = np.diag(radii)
+        # Rotate accordingly
+        axes = soft_iron @ axes
+
+        # Plot axes
+        for p in axes:
+            X3 = np.linspace(-p[0], p[0], 100) + hard_iron[0]
+            Y3 = np.linspace(-p[1], p[1], 100) + hard_iron[1]
+            Z3 = np.linspace(-p[2], p[2], 100) + hard_iron[2]
+            ax.plot(X3, Y3, Z3, color=cage_color)
+
+    # plot ellipsoid
+    ax.plot_wireframe(x, y, z, rstride=4, cstride=4, color=cage_color, alpha=cage_alpha)
+
+
+def magfield_data_plot(soft_iron: np.ndarray, hard_iron: np.ndarray, magnetic_field: np.ndarray,
+                       local_magnetic_field: np.ndarray, save: str = "") -> None:
+    """
+    Plots the data of a data set given the magnetic field. The components of the
+    plot are the original magnetic field represented with a black cage, the
+    distorted magnetic plot as an orange cage, and the samples of the magnetic
+    field as blue dots.
+
+    Args:
+        soft_iron (np.ndarray): Soft-iron matrix as a (3, 3) numpy array.
+        hard_iron (np.ndarray): Hard-iron matrix as a (3, 1) numpy array.
+        magnetic_field (np.ndarray): Magnetic field in G as a (n, 3) numpy array.
+        local_magnetic_field (np.ndarray): Local magnetic field in G as a (3, ) numpy array.
+        save (str): Directory to save the plots as a string.
+        angle (float): View's angle as a float.
+    """
+    # Sphere radius
+    r = np.linalg.norm(local_magnetic_field)
+
+    # Create Figure
+    fig = plt.figure(figsize=(9, 9))
+    ax = fig.add_subplot(111, projection="3d")
+
+    # Remove background and axes
+    fig.patch.set_facecolor('none')
+    ax.set_axis_off()
+    ax.spines['top'].set_color('none')
+    ax.spines['bottom'].set_color('none')
+    ax.spines['left'].set_color('none')
+    ax.spines['right'].set_color('none')
+    ax.set_xticks([])
+    ax.set_yticks([])
+
+    # Get color palette
+    colors = _get_color_palette()
+
+    # Plot the magnetic field measurements with decreased amount of samples
+    magnetic_field = magnetic_field[::5, :]
+    ax.scatter(magnetic_field[:, 0], magnetic_field[:, 1], magnetic_field[:, 2], marker=".",
+               color=colors["Midnight Green"])
+
+    # Plot the disturbed magnetic field
+    ellipsoid_plot(hard_iron.flatten(), [r, r, r], soft_iron, ax=ax, plot_axes=True,
+                   cage_color=colors["Alloy Orange"], cage_alpha=0.4)
+
+    # Plot the corrected magnetic field
+    ellipsoid_plot([0, 0, 0], [r, r, r], np.eye(3), ax=ax, plot_axes=True, cage_color=colors["Rich Black"])
+
+    # Set axes fro equal ratios
+    ax.set_box_aspect([1, 1, 1])
+    limits = np.array([ax.get_xlim3d(), ax.get_ylim3d(), ax.get_zlim3d()])
+    x, y, z = np.mean(limits, axis=1)
+    radius = 0.29 * np.max(np.abs(limits[:, 1] - limits[:, 0]))
+    ax.set_xlim3d([x - radius, x + radius])
+    ax.set_ylim3d([y - radius, y + radius])
+    ax.set_zlim3d([z - radius, z + radius])
+
+    # Set view angle to 210, best angle to see the ellipsoid with respect to the sphere.
+    ax.view_init(30, 210)
+
+    # Show the plot or save the plot given the save parameter.
+    plt.tight_layout()
+    if save:
+        # plt.savefig(save, format="pdf")
+        plt.savefig(".".join([save.split(".")[0], "png"]))
+    else:
+        plt.show()
+    plt.close()
+
+
 def _get_color_palette() -> Dict[str, List[int]]:
     # Palette in RGB [0, 255]
     palette_rgb = {
