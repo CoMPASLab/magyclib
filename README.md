@@ -34,10 +34,10 @@ poetry install
 
 > If you are installing the library through an SSH server, there might be a problem related to the python keyring. To avoid this problem, run `keyring --disable` before the last command in your terminal.
 
-If you want to avoid the development, documentation and test packages, you can use the following command:
+If you want to avoid the development, documentation, example and test packages, you can use the following command:
 
 ```bash
-poetry install --without dev docs test
+poetry install --without dev docs test example
 ```
 
 Now, to run and modify the code, you have to spawn a new shell with the environment activated:

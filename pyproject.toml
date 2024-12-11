@@ -44,6 +44,15 @@ black = "^23.7.0"
 sympy = "^1.11"
 ipykernel = "^6.17"
 
+[tool.poetry.group.example.dependencies]
+ipykernel = "^6.17"
+pandas = [
+    {version = ">=1.4.0,<2.1.0", python = ">=3.8,<3.9"},
+    {version = "^2.1.0", python = ">=3.9"},
+]
+tqdm = "^4.67.1"
+gdown = "^4.0.0"
+
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.6"
