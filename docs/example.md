@@ -15,7 +15,7 @@ This notebook demonstrates how to use the MAGYC algorithms to calibrate a magnet
 
 The calibration dataset corresponds to the simulated data used in the paper: "Full Magnetometer and Gyroscope Bias Estimation Using Angular Rates: Theory and Experimental Evaluation of a Factor Graph-Based Approach" by S. Rodríguez-Martínez and G. Troni, 2024. The dataset is available on Google Drive.
 
-## MAGYC Example - Simulated Cross-Validation
+## MAGYC Example - Simulated Data Cross-Validation
 
 [Jupyter Notebook :simple-jupyter:](https://github.com/CoMPASLab/magyclib/blob/main/example/20241107_sim_evaluation.ipynb){ .md-button }
 
