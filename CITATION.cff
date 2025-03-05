@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+authors:
+  - family-names: Rodríguez-Martínez
+    given-names: Sebastián
+    orcid: https://orcid.org/0009-0006-5238-8563
+  - family-names: Troni
+    given-names: Giancarlo
+    orcid: https://orcid.org/0000-0002-1517-8739
+title: "Full Magnetometer and Gyroscope Bias Estimation Using Angular Rates: Theory and Experimental Evaluation of a Factor Graph-Based Approach"
+journal: "IEEE Journal of Oceanic Engineering"
+year: 2025
+pages: "1-10"
+doi: "10.1109/JOE.2024.3523701"
+keywords:
+  - Magnetometers
+  - Calibration
+  - Gyroscopes
+  - Magnetic tunneling
+  - Mathematical models
+  - Magnetic domains
+  - Estimation
+  - Accelerometers
+  - Noise measurement
+  - Earth
+  - Doppler navigation
+  - gyroscope bias calibration
+  - magnetometer hard-iron bias and soft-iron bias calibration
+  - marine robotics
+  - sensor fusion
